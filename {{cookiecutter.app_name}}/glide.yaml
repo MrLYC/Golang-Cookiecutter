@@ -1,0 +1,4 @@
+package: .
+ignore:
+  - {{cookiecutter.app_name}}
+import: []
