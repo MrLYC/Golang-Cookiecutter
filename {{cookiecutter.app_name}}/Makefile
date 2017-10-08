@@ -34,6 +34,7 @@ ${GLIDEYAML}:
 
 ${GLIDELOCK}: ${SRCDIR} ${GLIDEYAML}
 	${GLIDE} install
+	touch ${GLIDELOCK}
 
 .PHONY: init
 init: ${SRCDIR} ${GLIDEYAML}
