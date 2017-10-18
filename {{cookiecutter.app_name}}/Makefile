@@ -1,6 +1,6 @@
 VERSION := 0.0.1
 ROOTDIR := $(shell pwd)
-APPDIR := {{cookiecutter.app_name}}
+APPNAME := {{cookiecutter.app_name}}
 SRCDIR := src/{{cookiecutter.app_name}}
 TARGET := bin/{{cookiecutter.app_name}}
 
@@ -12,9 +12,9 @@ GLIDE := ${GOENV} glide
 GLIDEYAML := ${ROOTDIR}/glide.yaml
 GLIDELOCK := ${ROOTDIR}/glide.lock
 
-LDFLAGS := -X ${APPDIR}/config.Version=${VERSION}
-DEBUGLDFLAGS := ${LDFLAGS} -X ${APPDIR}/config.Mode=debug
-RELEASELDFLAGS := -w ${LDFLAGS} -X ${APPDIR}/config.Mode=release
+LDFLAGS := -X ${APPNAME}/config.Version=${VERSION}
+DEBUGLDFLAGS := ${LDFLAGS} -X ${APPNAME}/config.Mode=debug
+RELEASELDFLAGS := -w ${LDFLAGS} -X ${APPNAME}/config.Mode=release
 
 .PHONY: release
 release: ${SRCDIR} ${GLIDELOCK}
@@ -27,7 +27,7 @@ build: ${SRCDIR} ${GLIDELOCK}
 ${SRCDIR}:
 	mkdir -p bin
 	mkdir -p src
-	ln -s ${ROOTDIR} src/
+	ln -s `dirname "${ROOTDIR}"`/${APPNAME} src/
 
 ${GLIDEYAML}:
 	${GLIDE} init
