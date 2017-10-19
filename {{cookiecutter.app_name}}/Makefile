@@ -47,5 +47,12 @@ update: ${SRCDIR}
 install: ${GLIDELOCK}
 
 .PHONY: test
-	test:
-		find "." -name "*_test.go" -not -path "./vendor/*" -not -path "./src/*" -exec dirname {} \; | uniq | xargs go test
+test:
+	$(eval package ?= $(shell find "." -name "*_test.go" -not -path "./vendor/*" -not -path "./src/*" -exec dirname {} \; | uniq))
+	@for i in ${package} ; do \
+		$${GOENV} go test $$i ; \
+	done
+
+.PHONY: lint
+lint:
+	${GOENV} find . -type f -name "*.go" -not -path "./vendor/*" -not -path "./src/*" -exec golint {} \;
