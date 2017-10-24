@@ -42,16 +42,18 @@ init: ${SRCDIR} ${GLIDEYAML}
 .PHONY: update
 update: ${SRCDIR}
 	${GLIDE} update
+	find vendor -name 'testdata' -type d -exec rm -rf {} \; || true
+	find vendor -name '*_test.go' -delete || true
+	find vendor -type f \( ! -name '*.go' ! -name 'LICENSE' ! -name '*.s' ! -name '*.c' ! -name '*.cpp' \) -delete || true
+
 
 .PHONY: install
 install: ${GLIDELOCK}
 
 .PHONY: test
-test:
-	$(eval package ?= $(shell find "." -name "*_test.go" -not -path "./vendor/*" -not -path "./src/*" -exec dirname {} \; | uniq))
-	@for i in ${package} ; do \
-		$${GOENV} go test $$i ; \
-	done
+test: init
+	$(eval package ?= $(patsubst ./%,${APPNAME}/%,$(shell find "." -name "*_test.go" -not -path "./vendor/*" -not -path "./src/*" -not -path "./.*" -exec dirname {} \; | uniq)))
+	${GOENV} go test ${package}
 
 .PHONY: lint
 lint:
