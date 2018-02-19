@@ -11,6 +11,7 @@ import (
     "github.com/google/subcommands"
     "{{cookiecutter.app_name}}/logging"
     "{{cookiecutter.app_name}}/config"
+    "{{cookiecutter.app_name}}/http"
 )
 
 type initialHandler func() bool
@@ -46,6 +47,7 @@ func main() {
     subcommands.Register(subcommands.CommandsCommand(), "")
     subcommands.Register(&config.VersionCommand{}, "")
     subcommands.Register(&config.ConfInfoCommand{}, "")
+    subcommands.Register(&http.Command{}, "")
 
     flag.StringVar(
         &(config.Configuration.ConfigurationPath),

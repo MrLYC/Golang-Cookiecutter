@@ -35,6 +35,7 @@ type ConfigurationType struct {
 	Includes      []string `yaml:"includes,omitempty"`
 
 	Logging Logging `yaml:"logging"`
+	HTTP    HTTP    `yaml:"http"`
 }
 
 // Init : init ConfigurationType
@@ -44,6 +45,7 @@ func (c *ConfigurationType) Init() {
 	c.StrictInclude = false
 
 	c.Logging.Init()
+	c.HTTP.Init()
 }
 
 // ReadFrom : read configuration from path
