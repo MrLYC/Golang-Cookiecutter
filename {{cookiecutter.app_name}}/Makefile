@@ -29,7 +29,7 @@ ${SRCDIR}:
 	ln -s `dirname "${ROOTDIR}"`/${APPNAME} ${SRCDIR}
 
 .PHONY: init
-init: ${SRCDIR}
+init: ${SRCDIR} update
 
 .PHONY: update
 update: ${SRCDIR}
@@ -39,7 +39,7 @@ update: ${SRCDIR}
 	find vendor -type f \( ! -name '*.go' ! -name 'LICENSE' ! -name '*.s' ! -name '*.c' ! -name '*.cpp' \) -delete || true
 
 .PHONY: test
-test: init
+test: ${SRCDIR}
 	$(eval package ?= $(patsubst ./%,${APPNAME}/%,$(shell find "." -name "*_test.go" -not -path "./vendor/*" -not -path "./.*" -exec dirname {} \; | uniq)))
 	${GOENV} go test ${package}
 
