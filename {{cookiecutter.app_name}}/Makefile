@@ -1,60 +1,52 @@
 VERSION := 0.0.1
+
 ROOTDIR := $(shell pwd)
 APPNAME := {{cookiecutter.app_name}}
-SRCDIR := src/{{cookiecutter.app_name}}
-TARGET := bin/{{cookiecutter.app_name}}
+GODIR := /tmp/gopath
+SRCDIR := ${GODIR}/src/${APPNAME}
+TARGET := bin/${APPNAME}
 
-GOENV := GOPATH=${ROOTDIR}:${GOPATH} GO15VENDOREXPERIMENT=1
+GOENV := GOPATH=${GODIR}:${GOPATH} GO15VENDOREXPERIMENT=1
 
 GO := ${GOENV} go
-GLIDE := ${GOENV} glide
-
-GLIDEYAML := ${ROOTDIR}/glide.yaml
-GLIDELOCK := ${ROOTDIR}/glide.lock
+DEP := ${GOENV} dep
 
 LDFLAGS := -X ${APPNAME}/config.Version=${VERSION}
 DEBUGLDFLAGS := ${LDFLAGS} -X ${APPNAME}/config.Mode=debug
 RELEASELDFLAGS := -w ${LDFLAGS} -X ${APPNAME}/config.Mode=release
 
 .PHONY: release
-release: ${SRCDIR} ${GLIDELOCK}
-	${GO} build -i -ldflags="${RELEASELDFLAGS}" -o ${TARGET} {{cookiecutter.app_name}}
+release: ${SRCDIR}
+	${GO} build -i -ldflags="${RELEASELDFLAGS}" -o ${TARGET} ${APPNAME}
 
 .PHONY: build
-build: ${SRCDIR} ${GLIDELOCK}
-	${GO} build -i -ldflags="${DEBUGLDFLAGS}" -o ${TARGET} {{cookiecutter.app_name}}
+build: ${SRCDIR}
+	${GO} build -i -ldflags="${DEBUGLDFLAGS}" -o ${TARGET} ${APPNAME}
 
 ${SRCDIR}:
 	mkdir -p bin
-	mkdir -p src
-	ln -s `dirname "${ROOTDIR}"`/${APPNAME} src/
-
-${GLIDEYAML}:
-	${GLIDE} init
-
-${GLIDELOCK}: ${SRCDIR} ${GLIDEYAML}
-	${GLIDE} install
-	touch ${GLIDELOCK}
+	mkdir -p `dirname "${SRCDIR}"`
+	ln -s `dirname "${ROOTDIR}"`/${APPNAME} ${SRCDIR}
 
 .PHONY: init
-init: ${SRCDIR} ${GLIDEYAML}
+init: ${SRCDIR}
 
 .PHONY: update
 update: ${SRCDIR}
-	${GLIDE} update
+	cd ${SRCDIR} && ${DEP} ensure || true
 	find vendor -name 'testdata' -type d -exec rm -rf {} \; || true
 	find vendor -name '*_test.go' -delete || true
 	find vendor -type f \( ! -name '*.go' ! -name 'LICENSE' ! -name '*.s' ! -name '*.c' ! -name '*.cpp' \) -delete || true
 
-
-.PHONY: install
-install: ${GLIDELOCK}
-
 .PHONY: test
 test: init
-	$(eval package ?= $(patsubst ./%,${APPNAME}/%,$(shell find "." -name "*_test.go" -not -path "./vendor/*" -not -path "./src/*" -not -path "./.*" -exec dirname {} \; | uniq)))
+	$(eval package ?= $(patsubst ./%,${APPNAME}/%,$(shell find "." -name "*_test.go" -not -path "./vendor/*" -not -path "./.*" -exec dirname {} \; | uniq)))
 	${GOENV} go test ${package}
 
 .PHONY: lint
 lint:
-	${GOENV} find . -type f -name "*.go" -not -path "./vendor/*" -not -path "./src/*" -exec golint {} \;
+	${GOENV} find . -type f -name "*.go" -not -path "./vendor/*" -exec golint {} \;
+
+.PHONY: go-env
+go-env:
+	@go env
