@@ -17,7 +17,7 @@ RELEASELDFLAGS := -w ${LDFLAGS} -X ${APPNAME}/config.Mode=release
 
 .PHONY: release
 release: ${SRCDIR}
-	${GO} build -i -ldflags="${RELEASELDFLAGS}" -o ${TARGET} ${APPNAME}
+	${GO} build -i -ldflags="${RELEASELDFLAGS} -X ${APPNAME}/config.BuildHash=`git rev-parse HEAD`" -o ${TARGET} ${APPNAME}
 
 .PHONY: build
 build: ${SRCDIR}

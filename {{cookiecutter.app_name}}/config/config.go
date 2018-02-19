@@ -5,3 +5,6 @@ var Mode = "debug"
 
 // Version for {{cookiecutter.app_name}}
 var Version = "0.0.0"
+
+// BuildHash from vcs
+var BuildHash = ""

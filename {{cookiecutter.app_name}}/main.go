@@ -1,10 +1,21 @@
 package main
 
 import (
-    "fmt"
+    "os"
+    "flag"
+    "context"
+
+	"github.com/google/subcommands"
     "{{cookiecutter.app_name}}/config"
 )
 
-func main()  {
-    fmt.Printf("Mode: %v, Version: %v\n", config.Mode, config.Version)
+func main() {
+  subcommands.Register(subcommands.HelpCommand(), "")
+  subcommands.Register(subcommands.FlagsCommand(), "")
+  subcommands.Register(subcommands.CommandsCommand(), "")
+  subcommands.Register(&config.VersionCommand{}, "")
+
+  flag.Parse()
+  ctx := context.Background()
+  os.Exit(int(subcommands.Execute(ctx)))
 }
