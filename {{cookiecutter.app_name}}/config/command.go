@@ -37,3 +37,37 @@ func (p *VersionCommand) Execute(_ context.Context, f *flag.FlagSet, _ ...interf
 	fmt.Printf("Mode: %v, Version: %v, BuildHash: %v\n", Mode, Version, BuildHash)
 	return subcommands.ExitSuccess
 }
+
+// ConfInfoCommand :
+type ConfInfoCommand struct{}
+
+// Name :
+func (*ConfInfoCommand) Name() string {
+	return "confinfo"
+}
+
+// Synopsis :
+func (*ConfInfoCommand) Synopsis() string {
+	return "Print configurations"
+}
+
+// Usage :
+func (*ConfInfoCommand) Usage() string {
+	return `confinfo
+  Print configurations.
+`
+}
+
+// SetFlags :
+func (*ConfInfoCommand) SetFlags(f *flag.FlagSet) {
+}
+
+// Execute :
+func (p *ConfInfoCommand) Execute(_ context.Context, f *flag.FlagSet, _ ...interface{}) subcommands.ExitStatus {
+	data, err := Configuration.Dumps()
+	if err != nil {
+		panic(err)
+	}
+	fmt.Printf(data)
+	return subcommands.ExitSuccess
+}

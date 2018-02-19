@@ -11,7 +11,7 @@ GOENV := GOPATH=${GODIR}:${GOPATH} GO15VENDOREXPERIMENT=1
 GO := ${GOENV} go
 DEP := ${GOENV} dep
 
-LDFLAGS := -X ${APPNAME}/config.Version=${VERSION}
+LDFLAGS := -X ${APPNAME}/config.Version=${VERSION} -X ${APPNAME}/config.AppName=${APPNAME}
 DEBUGLDFLAGS := ${LDFLAGS} -X ${APPNAME}/config.Mode=debug
 RELEASELDFLAGS := -w ${LDFLAGS} -X ${APPNAME}/config.Mode=release
 
