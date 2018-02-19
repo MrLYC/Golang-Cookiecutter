@@ -33,6 +33,8 @@ type ConfigurationType struct {
 
 	StrictInclude bool     `yaml:"strict_include"`
 	Includes      []string `yaml:"includes,omitempty"`
+
+	Logging Logging `yaml:"logging"`
 }
 
 // Init : init ConfigurationType
@@ -40,6 +42,8 @@ func (c *ConfigurationType) Init() {
 	c.Debug = Mode == "debug"
 	c.ConfigurationPath = fmt.Sprintf("%s.yaml", AppName)
 	c.StrictInclude = false
+
+	c.Logging.Init()
 }
 
 // ReadFrom : read configuration from path

@@ -8,7 +8,8 @@ import (
     "time"
     "fmt"
 
-	"github.com/google/subcommands"
+    "github.com/google/subcommands"
+    "{{cookiecutter.app_name}}/logging"
     "{{cookiecutter.app_name}}/config"
 )
 
@@ -31,6 +32,11 @@ func initConfiguration() bool {
         fmt.Fprintln(os.Stderr, err.Error())
         return false
     }
+    return true
+}
+
+func initLogging() bool {
+    logging.Init()
     return true
 }
 
