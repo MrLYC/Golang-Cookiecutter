@@ -9,9 +9,9 @@ import (
     "fmt"
 
     "github.com/google/subcommands"
-    "{{cookiecutter.app_name}}/logging"
-    "{{cookiecutter.app_name}}/config"
-    "{{cookiecutter.app_name}}/http"
+    "{{cookiecutter.app_path}}/logging"
+    "{{cookiecutter.app_path}}/config"
+    "{{cookiecutter.app_path}}/http"
 )
 
 type initialHandler func() bool

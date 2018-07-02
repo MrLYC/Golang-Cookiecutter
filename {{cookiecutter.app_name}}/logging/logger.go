@@ -1,7 +1,7 @@
 package logging
 
 import (
-	"{{cookiecutter.app_name}}/config"
+	"{{cookiecutter.app_path}}/config"
 	"github.com/sirupsen/logrus"
 )
 

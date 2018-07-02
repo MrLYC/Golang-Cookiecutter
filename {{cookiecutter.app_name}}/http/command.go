@@ -7,8 +7,8 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/google/subcommands"
-	"{{cookiecutter.app_name}}/config"
-	"{{cookiecutter.app_name}}/logging"
+	"{{cookiecutter.app_path}}/config"
+	"{{cookiecutter.app_path}}/logging"
 )
 
 // Command :

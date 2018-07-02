@@ -1,7 +1,6 @@
 
 {
-    "full_name": "Liu Yicong",
-    "github_username": "MrLYC",
     "app_name": "app",
+    "app_path": "app",
     "project_short_description": "A Golang project."
 }
