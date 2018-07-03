@@ -2,8 +2,9 @@ VERSION := 0.0.1
 
 ROOTDIR := $(shell pwd)
 APPNAME := {{cookiecutter.app_name}}
+APPPATH := {{cookiecutter.app_path}}
 GODIR := /tmp/gopath
-SRCDIR := ${GODIR}/src/${APPNAME}
+SRCDIR := ${GODIR}/src/${APPPATH}
 TARGET := bin/${APPNAME}
 
 GOENV := GOPATH=${GODIR}:${GOPATH} GO15VENDOREXPERIMENT=1
@@ -11,36 +12,33 @@ GOENV := GOPATH=${GODIR}:${GOPATH} GO15VENDOREXPERIMENT=1
 GO := ${GOENV} go
 DEP := ${GOENV} dep
 
-LDFLAGS := -X ${APPNAME}/config.Version=${VERSION} -X ${APPNAME}/config.AppName=${APPNAME}
-DEBUGLDFLAGS := ${LDFLAGS} -X ${APPNAME}/config.Mode=debug
-RELEASELDFLAGS := -w ${LDFLAGS} -X ${APPNAME}/config.Mode=release
+LDFLAGS := -X ${APPPATH}/config.Version=${VERSION} -X ${APPPATH}/config.AppName=${APPNAME}
+DEBUGLDFLAGS := ${LDFLAGS} -X ${APPPATH}/config.Mode=debug
+RELEASELDFLAGS := -w ${LDFLAGS} -X ${APPPATH}/config.Mode=release
 
 .PHONY: release
 release: ${SRCDIR}
-	${GO} build -i -ldflags="${RELEASELDFLAGS} -X ${APPNAME}/config.BuildHash=`git rev-parse HEAD`" -o ${TARGET} ${APPNAME}
+	${GO} build -i -ldflags="${RELEASELDFLAGS} -X ${APPPATH}/config.BuildHash=`git rev-parse HEAD`" -o ${TARGET} ${APPPATH}
 
 .PHONY: build
 build: ${SRCDIR}
-	${GO} build -i -ldflags="${DEBUGLDFLAGS}" -o ${TARGET} ${APPNAME}
+	${GO} build -i -ldflags="${DEBUGLDFLAGS}" -o ${TARGET} ${APPPATH}
 
 ${SRCDIR}:
 	mkdir -p bin
 	mkdir -p `dirname "${SRCDIR}"`
-	ln -s `dirname "${ROOTDIR}"`/${APPNAME} ${SRCDIR}
+	ln -s ${ROOTDIR} ${SRCDIR}
 
 .PHONY: init
 init: ${SRCDIR} update
 
 .PHONY: update
 update: ${SRCDIR}
-	cd ${SRCDIR} && ${DEP} ensure || true
-	find vendor -name 'testdata' -type d -exec rm -rf {} \; || true
-	find vendor -name '*_test.go' -delete || true
-	find vendor -type f \( ! -name '*.go' ! -name 'LICENSE' ! -name '*.s' ! -name '*.c' ! -name '*.cpp' \) -delete || true
+	cd ${SRCDIR} && ${DEP} ensure 
 
 .PHONY: test
 test: ${SRCDIR}
-	$(eval package ?= $(patsubst ./%,${APPNAME}/%,$(shell find "." -name "*_test.go" -not -path "./vendor/*" -not -path "./.*" -exec dirname {} \; | uniq)))
+	$(eval package ?= $(patsubst ./%,${APPPATH}/%,$(shell find "." -name "*_test.go" -not -path "./vendor/*" -not -path "./.*" -exec dirname {} \; | uniq)))
 	${GOENV} go test ${package}
 
 .PHONY: lint

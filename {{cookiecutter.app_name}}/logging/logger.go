@@ -17,5 +17,5 @@ func Init() {
 	if err != nil {
 		panic(err)
 	}
-	logger.SetLevel(level)
+	logger.Level = level
 }
