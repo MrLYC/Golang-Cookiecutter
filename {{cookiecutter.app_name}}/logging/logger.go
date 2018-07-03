@@ -13,9 +13,9 @@ func GetLogger() *logrus.Logger {
 // Init :
 func Init() {
 	logger := logrus.StandardLogger()
-    level, err := logrus.ParseLevel(config.Configuration.Logging.Level)
-    if err != nil {
-        panic(err)
+	level, err := logrus.ParseLevel(config.Configuration.Logging.Level)
+	if err != nil {
+		panic(err)
 	}
 	logger.SetLevel(level)
 }
