@@ -7,7 +7,7 @@ GODIR := /tmp/gopath
 SRCDIR := ${GODIR}/src/${APPPATH}
 TARGET := bin/${APPNAME}
 
-GOENV := GOPATH=${GODIR}:${GOPATH} GO15VENDOREXPERIMENT=1
+GOENV := GOPATH=${GODIR} GO15VENDOREXPERIMENT=1
 
 GO := ${GOENV} go
 DEP := ${GOENV} dep
@@ -34,7 +34,7 @@ init: ${SRCDIR} update
 
 .PHONY: update
 update: ${SRCDIR}
-	cd ${SRCDIR} && ${DEP} ensure 
+	cd ${SRCDIR} && ${DEP} ensure -v
 
 .PHONY: test
 test: ${SRCDIR}
