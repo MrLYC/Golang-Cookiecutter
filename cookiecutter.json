@@ -1,6 +1,6 @@
 
 {
     "app_name": "app",
-    "app_path": "app",
+    "app_path": "github.com/my/app",
     "project_short_description": "A Golang project."
 }
