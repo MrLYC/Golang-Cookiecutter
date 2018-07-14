@@ -1,0 +1,10 @@
+language: python
+sudo: true
+go:
+  - 1.8.x
+  - master
+install:
+  - sudo apt-get install -y python-pip
+  - pip install cookiecutter
+script:
+  - cookiecutter --version
