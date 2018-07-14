@@ -1,10 +1,12 @@
 package main
 
 import (
+	"os"
 	"fmt"
 	"math/rand"
 	"time"
-	
+
+	"{{cookiecutter.app_path}}/config"	
 	"{{cookiecutter.app_path}}/logging"
 )
 
