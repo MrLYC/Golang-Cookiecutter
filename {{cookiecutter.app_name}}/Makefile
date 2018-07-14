@@ -1,20 +1,23 @@
-VERSION := 0.0.1
+VERSION = 0.0.1
 
-ROOTDIR := $(shell pwd)
-APPNAME := {{cookiecutter.app_name}}
-APPPATH := {{cookiecutter.app_path}}
-GODIR := /tmp/gopath
-SRCDIR := ${GODIR}/src/${APPPATH}
-TARGET := bin/${APPNAME}
+ROOTDIR = $(shell pwd)
+APPNAME = {{cookiecutter.app_name}}
+APPPATH = {{cookiecutter.app_path}}
+GODIR = /tmp/gopath
+SRCDIR = ${GODIR}/src/${APPPATH}
+TARGET = bin/${APPNAME}
 
-GOENV := GOPATH=${GODIR} GO15VENDOREXPERIMENT=1
+GOENV = GOPATH=${GODIR} GO15VENDOREXPERIMENT=1
 
-GO := ${GOENV} go
-DEP := ${GOENV} dep
+GO = ${GOENV} go
+DEP = ${GOENV} dep
 
-LDFLAGS := -X ${APPPATH}/config.Version=${VERSION} -X ${APPPATH}/config.AppName=${APPNAME}
-DEBUGLDFLAGS := ${LDFLAGS} -X ${APPPATH}/config.Mode=debug
-RELEASELDFLAGS := -w ${LDFLAGS} -X ${APPPATH}/config.Mode=release
+LDFLAGS = -X ${APPPATH}/config.Version=${VERSION} -X ${APPPATH}/config.AppName=${APPNAME}
+DEBUGLDFLAGS = ${LDFLAGS} -X ${APPPATH}/config.Mode=debug
+RELEASELDFLAGS = -w ${LDFLAGS} -X ${APPPATH}/config.Mode=release
+
+GOFINDSH = find . -type f -name "*.go" -not -path "./vendor/*"
+GOFILES = $(shell ${GOFINDSH})
 
 .PHONY: release
 release: ${SRCDIR}
@@ -43,7 +46,11 @@ test: ${SRCDIR}
 
 .PHONY: lint
 lint:
-	${GOENV} find . -type f -name "*.go" -not -path "./vendor/*" -exec golint {} \;
+	${GOENV} ${GOFINDSH} -exec golint {} \;
+
+.PHONY: fmt
+fmt:
+	${GOENV} gofmt -w ${GOFILES}
 
 .PHONY: go-env
 go-env:
