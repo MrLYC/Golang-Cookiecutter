@@ -4,7 +4,6 @@ import (
 	"os"
 	"flag"
 	"context"
-	"fmt"
 
 	"github.com/google/subcommands"
 	"{{cookiecutter.app_path}}/config"
