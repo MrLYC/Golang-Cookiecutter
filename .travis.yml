@@ -1,12 +1,22 @@
 language: python
 sudo: true
 go:
+  - 1.6.x
+  - 1.7.x
   - 1.8.x
+  - 1.9.x
+  - 1.10.x
   - master
+
 install:
   - sudo apt-get install -y python-pip
   - pip install cookiecutter
+
 script:
-  - pwd
   - cookiecutter --version
   - cookiecutter $TRAVIS_BUILD_DIR --no-input
+  - cd app
+  - git init
+  - make update
+  - make
+  - ./bin/app
