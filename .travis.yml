@@ -21,5 +21,10 @@ script:
   - cookiecutter $TRAVIS_BUILD_DIR --no-input
   - cd app
   - make update
+  - git init
+  - git add .
   - make
-  - ./bin/app
+  - ./bin/app version
+  - make fmt
+  - git diff --name-only | wc -l | xargs test 0 =
+  - make lint

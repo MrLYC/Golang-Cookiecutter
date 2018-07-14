@@ -46,7 +46,7 @@ test: ${SRCDIR}
 
 .PHONY: lint
 lint:
-	${GOENV} ${GOFINDSH} -exec golint {} \;
+	${GOENV} ${GOFINDSH} -exec golint -set_exit_status {} \;
 
 .PHONY: fmt
 fmt:
