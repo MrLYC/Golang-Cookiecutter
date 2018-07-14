@@ -1,12 +1,12 @@
 package main
 
 import (
-	"os"
 	"fmt"
 	"math/rand"
+	"os"
 	"time"
 
-	"{{cookiecutter.app_path}}/config"	
+	"{{cookiecutter.app_path}}/config"
 	"{{cookiecutter.app_path}}/logging"
 )
 
@@ -19,13 +19,13 @@ func initConfiguration() bool {
 	var err error
 	err = config.Configuration.Read()
 	if err != nil {
-	    fmt.Fprintln(os.Stderr, err.Error())
+		fmt.Fprintln(os.Stderr, err.Error())
 	}
 
 	err = config.Configuration.Validate()
 	if err != nil {
-	    fmt.Fprintln(os.Stderr, err.Error())
-	    return false
+		fmt.Fprintln(os.Stderr, err.Error())
+		return false
 	}
 	return true
 }

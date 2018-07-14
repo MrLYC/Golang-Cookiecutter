@@ -15,6 +15,7 @@ install:
   - sudo apt-get install -y python-pip
   - sudo pip install cookiecutter
   - go get -u github.com/golang/dep/cmd/dep
+  - go get -u golang.org/x/lint/golint
 
 script:
   - cookiecutter --version

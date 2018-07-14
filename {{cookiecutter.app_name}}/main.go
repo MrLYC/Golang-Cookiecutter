@@ -1,9 +1,9 @@
 package main
 
 import (
-	"os"
-	"flag"
 	"context"
+	"flag"
+	"os"
 
 	"github.com/google/subcommands"
 	"{{cookiecutter.app_path}}/config"
@@ -21,22 +21,22 @@ func main() {
 	subcommands.Register(&http.Command{}, "")
 
 	flag.StringVar(
-	    &(config.Configuration.ConfigurationPath),
-	    "c", config.Configuration.ConfigurationPath,
-	    "Configuration file",
+		&(config.Configuration.ConfigurationPath),
+		"c", config.Configuration.ConfigurationPath,
+		"Configuration file",
 	)
 
 	flag.Parse()
 
 	initialHandlers := []initialHandler{
-	    initRandomSeed,
-	    initConfiguration,
+		initRandomSeed,
+		initConfiguration,
 	}
 
 	for _, handler := range initialHandlers {
-	    if !handler() {
-	        os.Exit(255)
-	    }
+		if !handler() {
+			os.Exit(255)
+		}
 	}
 
 	ctx := context.Background()
