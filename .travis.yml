@@ -25,5 +25,6 @@ script:
   - make
   - ./bin/app version
   - make fmt
-  - git diff --name-only | wc -l | xargs test 0 = | git diff --name-only
+  - git diff
+  - git diff --name-only | wc -l | xargs test 0 =
   - make lint
