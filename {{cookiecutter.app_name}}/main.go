@@ -7,7 +7,7 @@ import (
 
 	"github.com/google/subcommands"
 	"{{cookiecutter.app_path}}/config"
-	"{{cookiecutter.app_path}}/http"
+	"{{cookiecutter.app_path}}/{{cookiecutter.app_name}}"
 )
 
 type initialHandler func() bool
@@ -18,7 +18,7 @@ func main() {
 	subcommands.Register(subcommands.CommandsCommand(), "")
 	subcommands.Register(&config.VersionCommand{}, "")
 	subcommands.Register(&config.ConfInfoCommand{}, "")
-	subcommands.Register(&http.Command{}, "")
+	subcommands.Register(&{{cookiecutter.app_name}}.Command{}, "")
 
 	flag.StringVar(
 		&(config.Configuration.ConfigurationPath),
