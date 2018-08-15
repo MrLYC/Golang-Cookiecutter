@@ -6,8 +6,8 @@ import (
 	"os"
 
 	"github.com/google/subcommands"
-	"{{cookiecutter.app_path}}/config"
 	"{{cookiecutter.app_path}}/{{cookiecutter.app_name}}"
+	"{{cookiecutter.app_path}}/config"
 )
 
 type initialHandler func() bool
